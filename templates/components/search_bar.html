@@ -1,0 +1,9 @@
+<!-- Search Bar -->
+    <div class="col-md-4 mb-2">
+        <form method="get" class="d-flex" id="searchForm">
+            <!-- Preserve status filter while searching -->
+            <input type="hidden" name="status" value="{{ status_filter }}">
+            <input type="text" name="q" class="form-control me-2" placeholder="Search by company or role" value="{{ search_query }}">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    </div>

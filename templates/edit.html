@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid ">
+    <span class="navbar-brand fs-4 fw-semibold ms-3">
+        Add Job Application
+    </span>
+</div>
+
+
+<form method="post" class="card p-4 shadow-sm">
+
+    <label for="company" class="form-label">Company</label>
+    <div class="input-group mb-2">
+        <input name="company" class="form-control" value="{{ application.company }}">
+    </div>
+
+    <label for="job_title" class="form-label">Job Title</label>
+    <div class="mb-2">
+        <input name="job_title" class="form-control" value="{{ application.job_title }}">
+    </div>
+
+    <label for="job_link" class="form-label">Job Link</label>
+    <div class="mb-2">
+        <input name="job_link" class="form-control" value="{{ application.job_link }}">
+    </div>
+
+    <label for="location" class="form-label">Location</label>
+    <div class="mb-2">
+        <input name="location" class="form-control" value="{{ application.location }}">
+    </div>
+
+    <label for="date" class="form-label">Date</label>
+    <div class="mb-2">
+        <input type="date" name="applied_date" class="form-control" value="{{ application.applied_date }}">
+    </div>
+
+    <label for="status" class="form-label">Status</label>
+    <div class="mb-2">
+        <select name="status" class="form-select">
+            <option selected>{{ application.status }}</option>
+            <option>Applied</option>
+            <option>Interview</option>
+            <option>Offer</option>
+            <option>Rejected</option>
+        </select>
+    </div>
+
+    <label for="notes" class="form-label">Notes</label>
+    <div class="mb-3">
+        <textarea name="notes" class="form-control" placeholder="Notes">{{ application.notes }}</textarea>
+    </div>
+
+    <button class="btn btn-success" type="submit">Update</button>
+</form>
+{% endblock %}
+
+
