@@ -1,0 +1,55 @@
+<div class="row mb-4 text-center" id="dashboardCards">
+
+    <!-- <div class="col">
+        <div class="card shadow-sm status-card bg-light" data-status="All">
+            <div class="card-body">
+                <h6>Total</h6>
+                <h4 class="count">{{ applications|length }}</h4>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="col">
+        <div class="card shadow-sm status-card bg-primary text-white" data-status="Applied">
+            <div class="card-body">
+                <h6>Applied</h6>
+                <h4 class="count">
+                    {{ applications | selectattr('status', 'equalto', 'Applied') | list | length }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card shadow-sm status-card bg-warning text-dark" data-status="Interview">
+            <div class="card-body">
+                <h6>Interview</h6>
+                <h4 class="count">
+                    {{ applications | selectattr('status', 'equalto', 'Interview') | list | length }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card shadow-sm status-card bg-success text-white" data-status="Offer">
+            <div class="card-body">
+                <h6>Offer</h6>
+                <h4 class="count">
+                    {{ applications | selectattr('status', 'equalto', 'Offer') | list | length }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card shadow-sm status-card bg-danger text-white" data-status="Rejected">
+            <div class="card-body">
+                <h6>Rejected</h6>
+                <h4 class="count">
+                    {{ applications | selectattr('status', 'equalto', 'Rejected') | list | length }}
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
