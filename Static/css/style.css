@@ -1,6 +1,6 @@
 /* Row background colors */
 body {
-    background-color: #f4f6f9; /* soft gray */
+    background-color: #f4f6f9;
 }
 
 header h2:hover {
@@ -14,19 +14,19 @@ header {
 }
 
 .status-applied {
-    background-color: #e7f1ff; /* light blue */
+    background-color: #e7f1ff; 
 }
 
 .status-interview {
-    background-color: #fff3cd; /* yellow */
+    background-color: #fff3cd; 
 }
 
 .status-offer {
-    background-color: #d1e7dd; /* green */
+    background-color: #d1e7dd; 
 }
 
 .status-rejected {
-    background-color: #f8d7da; /* red */
+    background-color: #f8d7da; 
 }
 
 /* Dropdown colors */
@@ -51,9 +51,9 @@ header {
 }
 
 .job-link-cell {
-    max-width: 250px;          /* controls column width */
-    word-wrap: break-word;     /* legacy support */
-    overflow-wrap: anywhere;  /* modern browsers */
+    max-width: 250px;         
+    word-wrap: break-word;     
+    overflow-wrap: anywhere; 
     white-space: normal;
 }
 
@@ -124,4 +124,43 @@ thead a:hover {
 
 .status-card:hover {
     transform: translateY(-6px);
+}
+
+/* Sticky table header */
+#applicationsTable thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10; 
+    box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1); 
+}
+
+#applicationsTable tbody tr {
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+#applicationsTable tbody tr:hover {
+    background-color: #e9f5ff; 
+    transform: translateY(-2px);
+}
+
+#applicationsTable tbody td {
+    transition: all 0.2s ease;
+}
+.action-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: #ffffff;
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(5px);}
+    100% { opacity: 1; transform: translateY(0);}
+}
+
+#applicationsTable tbody tr {
+    animation: fadeInUp 0.3s ease forwards;
 }

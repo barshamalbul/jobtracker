@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="mb-3 d-flex justify-content-between">
+<div class="mb-3 d-flex justify-content-between align-items-center action-bar">
     <a href="/add" class="btn btn-primary">
         ➕ Add Application
     </a>
-    <a href="/export_csv" class="btn btn-success">
-        ⬇ Export CSV
-    </a>
+    <div>
+        <a href="{{ url_for('export_csv') }}" class="btn btn-success me-2">
+            ⬇ CSV
+        </a>
+        <a href="{{ url_for('export_excel') }}" class="btn btn-info text-white">
+            ⬇ Excel
+        </a>
+    </div>
 </div>
+
 
 
 <div class="d-flex justify-content-end mb-3 flex-wrap gap-2">
@@ -108,7 +114,7 @@
     </a>
 </div>
 
-<table class="table table-bordered table-hover align-middle">
+<table class="applicationsTable table table-bordered table-hover align-middle" id="applicationsTable">
     <thead class="table-light">
         <tr>
             {% macro sort_link(column_name, display_name) -%}

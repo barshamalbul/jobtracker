@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+import io
+from openpyxl import Workbook
+from flask import Flask, render_template, request, redirect, url_for, Response, send_file, flash
 import sqlite3
 
 app = Flask(__name__)
@@ -174,6 +176,89 @@ def update_notes(id):
     flash("Notes updated successfully!")
     return redirect(url_for("index"))
 
+@app.route("/export_csv")
+def export_csv():
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row  # Important: allows column access by name
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM applications")
+    rows = cursor.fetchall()
+    conn.close()
+
+    # Make sure there’s at least one row
+    if not rows:
+        return "No data to export"
+
+    # Build CSV as string
+    def generate():
+        # Header
+        header = rows[0].keys()  # ['id','company','position','status','location','job_link','notes']
+        yield ",".join(header) + "\n"
+
+        for row in rows:
+            # Convert all values to string and escape commas in text
+            yield ",".join([str(row[h]).replace(",", ";") for h in header]) + "\n"
+
+    return Response(
+        generate(),
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment;filename=applications.csv"}
+    )
+
+@app.route("/export_csv/<status>")
+def export_csv_filtered(status):
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    if status == "All":
+        cursor.execute("SELECT * FROM applications")
+    else:
+        cursor.execute("SELECT * FROM applications WHERE status=?", (status,))
+    rows = cursor.fetchall()
+    conn.close()
+
+    def generate():
+        header = rows[0].keys() if rows else ['id','company','position','status','location','job_link','notes']
+        yield ','.join(header) + '\n'
+        for row in rows:
+            yield ','.join([str(row[h]) for h in header]) + '\n'
+
+    return Response(generate(),
+                    mimetype='text/csv',
+                    headers={"Content-Disposition":f"attachment;filename={status}_applications.csv"})
+
+@app.route("/export_excel")
+def export_excel():
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM applications")
+    rows = cursor.fetchall()
+    conn.close()
+
+    if not rows:
+        return "No data to export"
+
+    wb = Workbook()
+    ws = wb.active
+    # Header
+    ws.append(list(rows[0].keys()))
+    # Data
+    for row in rows:
+        ws.append([row[h] for h in row.keys()])
+
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name="applications.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 
 if __name__ == "__main__":
